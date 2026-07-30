@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
+import CmsManager from '../../components/admin/CmsManager';
 import './Admin.css';
 
 export default function Dashboard() {
@@ -493,6 +494,9 @@ export default function Dashboard() {
           <button className={activeTab === 'settings' ? 'active' : ''} onClick={() => { setActiveTab('settings'); setShowAddForm(false); setCurrentEditItem(null); }}>
             Site settings
           </button>
+          <button className={activeTab === 'cms' ? 'active' : ''} onClick={() => { setActiveTab('cms'); setShowAddForm(false); setCurrentEditItem(null); }}>
+            Content Management (CMS)
+          </button>
           <button className={activeTab === 'programs' ? 'active' : ''} onClick={() => { setActiveTab('programs'); setShowAddForm(false); setCurrentEditItem(null); }}>
             NGO programs
           </button>
@@ -731,6 +735,11 @@ export default function Dashboard() {
 
               <button type="submit" className="btn-admin-action" disabled={loading}>Save Settings</button>
             </form>
+          )}
+
+          {/* CMS MANAGER */}
+          {activeTab === 'cms' && (
+            <CmsManager />
           )}
 
           {/* NGO PROGRAMS LIST */}

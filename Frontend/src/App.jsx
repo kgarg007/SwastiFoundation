@@ -12,6 +12,9 @@ const VolunteerPage = lazy(() => import("./pages/VolunteerPage"));
 const DonatePage = lazy(() => import("./pages/DonatePage"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
 
+const CMSPage = lazy(() => import("./pages/CMSPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+
 const AdminLogin = lazy(() => import("./pages/Admin/Login"));
 const AdminDashboard = lazy(() => import("./pages/Admin/Dashboard"));
 const ProtectedRoute = lazy(() => import("./components/layout/ProtectedRoute"));
@@ -26,6 +29,17 @@ export default function App() {
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
+          <Route path="contact" element={<ContactPage />} />
+
+          {/* CMS Legal & Informational Routes */}
+          <Route path="privacy-policy" element={<CMSPage slug="privacy-policy" />} />
+          <Route path="terms" element={<CMSPage slug="terms" />} />
+          <Route path="terms-and-conditions" element={<CMSPage slug="terms-and-conditions" />} />
+          <Route path="refund-policy" element={<CMSPage slug="refund-policy" />} />
+          <Route path="donation-refund-policy" element={<CMSPage slug="donation-refund-policy" />} />
+          <Route path="disclaimer" element={<CMSPage slug="disclaimer" />} />
+          <Route path="page/:slug" element={<CMSPage />} />
+
           <Route path="programs" element={<ProgramsPage />} />
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="impact" element={<ImpactPage />} />

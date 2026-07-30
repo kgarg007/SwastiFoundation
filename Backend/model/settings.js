@@ -15,7 +15,9 @@ const settingsSchema = new Schema({
     branchLocations: { type: [String], default: ["Karol Bagh", "Rajpur", "Chhattarpur"] },
     email: { type: String, default: "Foundationswasti@gmail.com" },
     phone: { type: String, default: "8459073474" },
-    whatsappNumber: { type: String, default: "459073474" },
+    whatsappNumber: { type: String, default: "8459073474" },
+    workingHours: { type: String, default: "Monday – Saturday 9:00 AM – 6:00 PM IST" },
+    googleMapUrl: { type: String, default: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3507.2158860714777!2d77.1812!3d28.502!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjLCsDMwJzA3LjIiTiA3N8KwMTB0NTIuMyJF!5e0!3m2!1sen!2sin!4v1600000000000!5m2!1sen!2sin" },
     social: {
       facebook: { type: String, default: "#" },
       instagram: { type: String, default: "#" },

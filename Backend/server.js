@@ -23,19 +23,27 @@ app.use('/settings', require('./routes/settings'));
 app.use('/submissions', require('./routes/submissions'));
 app.use('/team', require('./routes/team'));
 app.use('/volunteer-team', require('./routes/volunteerTeam'));
+const cmsRouter = require('./routes/cms');
+app.use('/cms', cmsRouter);
+app.use('/api/cms', cmsRouter);
+app.use('/api/admin/cms', cmsRouter);
+app.use('/admin/cms', cmsRouter);
 
 
 
 
 
+
+const initializeCmsPages = require('./utils/seedCmsHelper');
 
 main()
-    .then(()=>{
+    .then(async () => {
         console.log("DB Connected successfully");
+        await initializeCmsPages();
 
-        app.listen(3000,()=>{
+        app.listen(3000, () => {
             console.log("Listening at port 3000");
-        })
+        });
     })
 
     .catch((err)=>{

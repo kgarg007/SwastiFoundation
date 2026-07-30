@@ -40,10 +40,6 @@
   );
 }
 
-/*
- * Root cause fix 4: Glow effect had fixed width: 60vw with filter: blur(120px),
- * causing blurred radial glow to extend past 100vw on mobile.
- */
 .hero__bg-glow {
   position: absolute;
   top: 20%;
@@ -66,6 +62,10 @@
   width: 100%;
 }
 
+/* 
+ * ONLY the hero content wrapper (containing text and buttons) 
+ * receives padding-top: 45px to move content down by ~45px.
+ */
 .hero__content {
   max-width: 860px;
   width: 100%;
@@ -73,6 +73,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: var(--space-3xl);
+  padding-top: 45px;
 }
 
 .hero__eyebrow {
@@ -85,12 +86,6 @@
   margin-bottom: var(--space-sm);
 }
 
-/*
- * Root cause fix 2: Hindi heading ("नर सेवा ही नारायण सेवा है।") was overflowing container on narrow screens (320px-480px)
- * because desktop font-size --fs-display-xl (44px) was too large for 320px containers.
- * Fixed by using white-space: normal, max-width: 100%, and responsive font scaling only on small screens (<=768px).
- * Text wraps naturally ONLY at word boundaries without breaking Devanagari words unnaturally.
- */
 .hero__headline {
   font-family: var(--font-display);
   font-size: var(--fs-display-xl);
@@ -109,18 +104,9 @@
   font-weight: 400;
   color: rgba(255, 255, 255, 0.85);
   font-size: var(--fs-display-sm);
-  margin-bottom: var(--space-lg);
+  margin-bottom: var(--space-xl);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
   max-width: 100%;
-}
-
-.hero__sub {
-  font-size: var(--fs-body-lg);
-  color: rgba(255, 255, 255, 0.8);
-  line-height: var(--lh-relaxed);
-  max-width: 680px;
-  width: 100%;
-  margin-bottom: var(--space-xl);
 }
 
 .hero__ctas {
@@ -158,10 +144,6 @@
   width: 100%;
 }
 
-/*
- * Root cause fix 3: Statistic cards layout & padding on mobile.
- * Adjusted card padding on small screens to fit neatly without overlap or clipping.
- */
 .hero__stat-card {
   display: flex;
   flex-direction: column;
@@ -202,6 +184,10 @@
     flex-direction: column;
   }
 
+  .hero__content {
+    padding-top: 35px;
+  }
+
   .hero__stats-wrapper {
     position: relative;
     bottom: 0;
@@ -215,12 +201,6 @@
     padding-block: calc(var(--header-height) + var(--space-xl)) var(--space-xl);
   }
 
-  /*
-   * Mobile Hero Image Focal Point:
-   * On portrait mobile screens, background-position: 75% 35% positions the key emotional subject
-   * (the child's smiling face and warm expression) directly in view, avoiding awkward cropping
-   * of raised hands/background elements without zooming or distorting the image.
-   */
   .hero__bg-image {
     background-position: 75% 35%;
   }
@@ -248,6 +228,7 @@
   }
 
   .hero__content {
+    padding-top: 25px;
     margin-bottom: var(--space-lg);
   }
 

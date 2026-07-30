@@ -49,6 +49,7 @@ export default function Footer() {
             <h3 className="footer__heading">{t("footer.quickLinks")}</h3>
             <ul className="footer__links">
               <li><Link to="/about">{t("nav.about")}</Link></li>
+              <li><Link to="/contact">Contact Us</Link></li>
               <li><Link to="/programs">{t("nav.programs")}</Link></li>
               <li><Link to="/impact">{t("nav.impact")}</Link></li>
               <li><Link to="/stories">{t("nav.blog")}</Link></li>
@@ -60,6 +61,10 @@ export default function Footer() {
             <ul className="footer__links">
               <li><Link to="/donate">{t("nav.donate")}</Link></li>
               <li><Link to="/volunteer">{t("nav.volunteer")}</Link></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/terms">Terms & Conditions</Link></li>
+              <li><Link to="/refund-policy">Refund Policy</Link></li>
+              <li><Link to="/disclaimer">Disclaimer</Link></li>
             </ul>
           </div>
 
@@ -94,8 +99,10 @@ export default function Footer() {
         <div className="container footer__bottom-inner">
           <p>© {year} {orgInfo.name}. {t("footer.rights")}</p>
           <div className="footer__bottom-links">
-            <Link to="#">Privacy Policy</Link>
-            <Link to="#">Terms of Service</Link>
+            <Link to="/privacy-policy">Privacy Policy</Link>
+            <Link to="/terms">Terms & Conditions</Link>
+            <Link to="/refund-policy">Refund Policy</Link>
+            <Link to="/disclaimer">Disclaimer</Link>
           </div>
         </div>
       </div>

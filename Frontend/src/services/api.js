@@ -13,6 +13,7 @@ export const api = {
   // GET helper
   async get(endpoint) {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
+      cache: "no-store",
       headers: getHeaders()
     });
     const data = await res.json();

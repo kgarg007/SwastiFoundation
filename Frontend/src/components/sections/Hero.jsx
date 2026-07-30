@@ -29,8 +29,6 @@ export default function Hero() {
       
       <div className="container hero__inner">
         <div className="hero__content">
-
-
           <motion.span 
             className="hero__eyebrow"
             custom={1}
@@ -61,19 +59,9 @@ export default function Hero() {
             "{orgInfo.taglineTranslation}"
           </motion.p>
           
-          <motion.p 
-            className="hero__sub"
-            custom={4}
-            initial="hidden"
-            animate="visible"
-            variants={fadeUpVariants}
-          >
-            {t("home.heroSub")}
-          </motion.p>
-          
           <motion.div 
             className="hero__ctas"
-            custom={5}
+            custom={4}
             initial="hidden"
             animate="visible"
             variants={fadeUpVariants}
@@ -92,7 +80,7 @@ export default function Hero() {
         className="hero__stats-wrapper"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.8, ease: "easeOut" }}
+        transition={{ delay: 1.0, duration: 0.8, ease: "easeOut" }}
       >
         <div className="container">
           <div className="hero__stats">
