@@ -31,6 +31,10 @@ const blogSchema = new Schema({
   publishedDate: {
     type: Date,
     default: Date.now
+  },
+  link: {
+    type: String,
+    default: ''
   }
 }, { timestamps: true });
 

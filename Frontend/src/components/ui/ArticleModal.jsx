@@ -86,6 +86,19 @@ export default function ArticleModal({ item, onClose }) {
           {paragraphs.map((p, idx) => (
             <p key={idx}>{p}</p>
           ))}
+          
+          {item.link && (
+            <div className="article-modal__link-section">
+              <a 
+                href={item.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="article-modal__external-link"
+              >
+                Read full article on official source &rarr;
+              </a>
+            </div>
+          )}
         </div>
 
         <div className="article-modal__footer">

@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 // POST create blog post (Protected)
 router.post('/', auth, upload.single('image'), async (req, res) => {
   try {
-    const { title, category, excerpt, content, author, publishedDate } = req.body;
+    const { title, category, excerpt, content, author, publishedDate, link } = req.body;
     if (!title || !excerpt || !content) {
       if (req.file) fs.unlinkSync(req.file.path);
       return res.status(400).json({ error: 'Title, excerpt, and content are required fields.' });
@@ -52,7 +52,8 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
       image: imageUrl,
       imagePublicId: imagePublicId,
       author,
-      publishedDate: publishedDate || Date.now()
+      publishedDate: publishedDate || Date.now(),
+      link: link || ''
     });
 
     await newPost.save();
@@ -68,7 +69,7 @@ router.post('/', auth, upload.single('image'), async (req, res) => {
 // PUT update blog post (Protected)
 router.put('/:id', auth, upload.single('image'), async (req, res) => {
   try {
-    const { title, category, excerpt, content, author, publishedDate } = req.body;
+    const { title, category, excerpt, content, author, publishedDate, link } = req.body;
     const post = await Blog.findById(req.params.id);
     if (!post) {
       if (req.file) fs.unlinkSync(req.file.path);
@@ -81,6 +82,7 @@ router.put('/:id', auth, upload.single('image'), async (req, res) => {
     if (content) post.content = content;
     if (author) post.author = author;
     if (publishedDate) post.publishedDate = publishedDate;
+    if (link !== undefined) post.link = link;
 
     if (req.file) {
       const cloudinaryRes = await uploadOnCloudinary(req.file.path);

@@ -314,6 +314,7 @@ export default function Dashboard() {
         updateData.append('excerpt', formData.get('excerpt'));
         updateData.append('content', formData.get('content'));
         updateData.append('author', formData.get('author'));
+        updateData.append('link', formData.get('link') || '');
         if (hasImage) {
           updateData.append('image', formData.get('image'));
         }
@@ -1069,6 +1070,10 @@ export default function Dashboard() {
                     <label className="full-width">
                       <span>Excerpt (short search engine summary)</span>
                       <input type="text" name="excerpt" required defaultValue={currentEditItem?.excerpt || ''} />
+                    </label>
+                    <label className="full-width">
+                      <span>External Link / Reference URL (Optional)</span>
+                      <input type="url" name="link" placeholder="https://example.com/more-details" defaultValue={currentEditItem?.link || ''} />
                     </label>
                     <label className="full-width">
                       <span>Article Content</span>
