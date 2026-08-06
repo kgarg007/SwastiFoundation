@@ -35,6 +35,11 @@ app.use('/admin/cms', cmsRouter);
 
 
 
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ status: 'OK', message: 'Server is running healthy.', timestamp: new Date() });
+});
+
 const initializeCmsPages = require('./utils/seedCmsHelper');
 
 main()
