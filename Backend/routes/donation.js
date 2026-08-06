@@ -112,4 +112,27 @@ router.get('/list', auth, async (req, res) => {
   }
 });
 
+// ==========================================
+// 4. DELETE DONATION RECORD (Protected & Admin Only)
+// ==========================================
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    // Admin Authorization Check
+    const adminUser = await Admin.findById(req.adminId);
+    if (!adminUser || adminUser.role !== 'admin') {
+      return res.status(403).json({ error: 'Access denied. Administrator privileges required.' });
+    }
+
+    const donation = await Donation.findById(req.params.id);
+    if (!donation) {
+      return res.status(404).json({ error: 'Donation record not found.' });
+    }
+
+    await donation.deleteOne();
+    res.json({ success: true, message: 'Donation record deleted successfully.' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

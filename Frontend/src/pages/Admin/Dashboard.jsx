@@ -483,6 +483,21 @@ export default function Dashboard() {
     }
   }
 
+  // Donation Records Deletion Actions
+  async function handleDeleteDonation(id) {
+    if (!window.confirm('Are you sure you want to delete this donation record? This action cannot be undone.')) return;
+    setLoading(true);
+    try {
+      await api.delete(`/api/donation/${id}`);
+      setSuccessMsg('Donation record deleted successfully.');
+      fetchData();
+    } catch (err) {
+      setErrorMsg(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   // Render content according to the active tab
   return (
     <div className="admin-dashboard-layout">
@@ -1371,6 +1386,7 @@ export default function Dashboard() {
                       <th>Order ID</th>
                       <th>Date & Time</th>
                       <th>Status</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1384,6 +1400,9 @@ export default function Dashboard() {
                         <td><code style={{ fontSize: '12px' }}>{d.razorpayOrderId}</code></td>
                         <td>{new Date(d.createdAt).toLocaleString()}</td>
                         <td><span className="table-badge" style={{ backgroundColor: 'var(--admin-primary)', color: '#fff', border: 'none' }}>{d.status}</span></td>
+                        <td>
+                          <button className="btn-table-delete" onClick={() => handleDeleteDonation(d._id)}>Delete</button>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
