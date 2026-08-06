@@ -19,8 +19,8 @@ const razorpay = new Razorpay({
 router.post('/order', async (req, res) => {
   try {
     const { amount } = req.body;
-    if (!amount || typeof amount !== 'number' || amount <= 0) {
-      return res.status(400).json({ error: 'Amount must be a positive number.' });
+    if (!amount || typeof amount !== 'number' || amount < 10) {
+      return res.status(400).json({ error: 'Amount must be at least ₹10.' });
     }
 
     const receiptId = `rcpt_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
@@ -47,10 +47,16 @@ router.post('/order', async (req, res) => {
 // ==========================================
 router.post('/verify', async (req, res) => {
   try {
-    const { razorpay_payment_id, razorpay_order_id, razorpay_signature, name, email } = req.body;
+    const { razorpay_payment_id, razorpay_order_id, razorpay_signature, name, email, pan } = req.body;
 
-    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature || !name || !email) {
+    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature || !name || !email || !pan) {
       return res.status(400).json({ error: 'All payment fields are required.' });
+    }
+
+    // Validate PAN number format (10-digit alphanumeric: 5 letters, 4 numbers, 1 letter)
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i;
+    if (!panRegex.test(pan.trim())) {
+      return res.status(400).json({ error: 'Invalid PAN card number format.' });
     }
 
     // Step A: Cryptographically verify the signature
@@ -80,6 +86,7 @@ router.post('/verify', async (req, res) => {
     const donation = new Donation({
       donorName: name,
       email: email,
+      pan: pan.trim().toUpperCase(),
       amount: verifiedAmount,
       razorpayPaymentId: razorpay_payment_id,
       razorpayOrderId: razorpay_order_id,

@@ -107,6 +107,8 @@ export default {
     subtitle: "Every contribution — large or small — funds real programs for real communities.",
     amountTitle: "Choose an amount",
     customAmount: "Custom amount",
+    pan: "PAN Number",
+    panPlaceholder: "Enter 10-digit PAN number",
     proceedToPay: "Proceed to Pay",
     whyDonate: "Where your donation goes",
     taxNote: "Donations may be eligible for tax benefits under applicable law.",

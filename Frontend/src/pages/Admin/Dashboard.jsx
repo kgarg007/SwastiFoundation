@@ -1381,6 +1381,7 @@ export default function Dashboard() {
                       <th>Receipt ID</th>
                       <th>Donor Name</th>
                       <th>Email</th>
+                      <th>PAN</th>
                       <th>Amount</th>
                       <th>Payment ID</th>
                       <th>Order ID</th>
@@ -1395,6 +1396,7 @@ export default function Dashboard() {
                         <td><strong>{d.receiptId}</strong></td>
                         <td>{d.donorName}</td>
                         <td><a href={`mailto:${d.email}`}>{d.email}</a></td>
+                        <td><code style={{ fontSize: '12px', fontWeight: 'bold' }}>{d.pan || 'N/A'}</code></td>
                         <td>₹{d.amount.toLocaleString('en-IN')}</td>
                         <td><code style={{ fontSize: '12px' }}>{d.razorpayPaymentId}</code></td>
                         <td><code style={{ fontSize: '12px' }}>{d.razorpayOrderId}</code></td>

@@ -15,7 +15,8 @@ import {
   Sparkles, 
   CheckCircle2, 
   XCircle,
-  Lock
+  Lock,
+  CreditCard
 } from "lucide-react";
 import "../styles/page-hero.css";
 import "./DonatePage.css";
@@ -56,6 +57,7 @@ export default function DonatePage() {
   const [customAmount, setCustomAmount] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [pan, setPan] = useState("");
   const [status, setStatus] = useState(null); // null | "success" | "failure"
   useReveal();
 
@@ -63,7 +65,19 @@ export default function DonatePage() {
 
   async function handlePay(e) {
     e.preventDefault();
-    if (!name.trim() || !email.trim()) return;
+    if (!name.trim() || !email.trim() || !pan.trim()) return;
+
+    if (effectiveAmount < 10) {
+      alert("Minimum donation amount is ₹10.");
+      return;
+    }
+
+    // Validate PAN pattern (5 letters, 4 digits, 1 letter)
+    const panRegex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/i;
+    if (!panRegex.test(pan.trim())) {
+      alert("Please enter a valid 10-character PAN number (e.g. ABCDE1234F).");
+      return;
+    }
 
     try {
       // 1. Load Razorpay script
@@ -111,7 +125,8 @@ export default function DonatePage() {
                 razorpay_order_id: paymentResponse.razorpay_order_id,
                 razorpay_signature: paymentResponse.razorpay_signature,
                 name: name,
-                email: email
+                email: email,
+                pan: pan.trim().toUpperCase()
               })
             });
 
@@ -176,6 +191,7 @@ export default function DonatePage() {
                   setStatus(null);
                   setName("");
                   setEmail("");
+                  setPan("");
                 }}>
                   {t("common.backToHome")}
                 </Button>
@@ -217,8 +233,8 @@ export default function DonatePage() {
                     <HeartHandshake className="input-field-icon" size={18} />
                     <input
                       type="number"
-                      min="1"
-                      placeholder="₹ Enter custom amount"
+                      min="10"
+                      placeholder="₹ Enter custom amount (Min. ₹10)"
                       value={customAmount}
                       onChange={(e) => setCustomAmount(e.target.value)}
                     />
@@ -258,12 +274,28 @@ export default function DonatePage() {
                   </label>
                 </div>
 
+                <label className="form-field">
+                  <span>{t("donate.pan")} *</span>
+                  <div className="input-icon-wrapper">
+                    <CreditCard className="input-field-icon" size={18} />
+                    <input
+                      type="text"
+                      name="pan"
+                      placeholder={t("donate.panPlaceholder")}
+                      value={pan}
+                      onChange={(e) => setPan(e.target.value.toUpperCase())}
+                      maxLength={10}
+                      required
+                    />
+                  </div>
+                </label>
+
                 <Button
                   type="submit"
                   variant="primary"
                   size="lg"
                   className="donate-card__cta"
-                  disabled={!name.trim() || !email.trim()}
+                  disabled={!name.trim() || !email.trim() || !pan.trim()}
                 >
                   <Sparkles size={18} />
                   <span>{t("donate.proceedToPay")} — ₹{effectiveAmount.toLocaleString("en-IN")}</span>
