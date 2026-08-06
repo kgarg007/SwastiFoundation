@@ -29,20 +29,127 @@ const ALLOCATION = [
   { label: "Environment & welfare initiatives", pct: 20, icon: Leaf, color: "var(--color-secondary)" },
 ];
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
+
+const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+};
+
 export default function DonatePage() {
   const { t } = useLanguage();
   const [amount, setAmount] = useState(1000);
   const [customAmount, setCustomAmount] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [status, setStatus] = useState(null); // null | "success" | "failure"
   useReveal();
 
   const effectiveAmount = customAmount ? Number(customAmount) : amount;
 
-  function handlePay(e) {
+  async function handlePay(e) {
     e.preventDefault();
-    // TODO: Integrate Razorpay Payment Gateway
-    // Dummy handler — simulates success for now.
-    setStatus("success");
+    if (!name.trim() || !email.trim()) return;
+
+    try {
+      // 1. Load Razorpay script
+      const scriptLoaded = await loadRazorpayScript();
+      if (!scriptLoaded) {
+        alert("Razorpay payment gateway failed to load. Please verify your connection.");
+        return;
+      }
+
+      // 2. Create order on Backend
+      const response = await fetch(`${API_BASE_URL}/api/donation/order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ amount: effectiveAmount })
+      });
+
+      const orderData = await response.json();
+      if (!response.ok) {
+        throw new Error(orderData.error || "Failed to initialize payment order.");
+      }
+
+      const { orderId, amount: orderAmount, receiptId, razorpayKeyId } = orderData;
+
+      // 3. Launch Checkout Modal
+      const options = {
+        key: razorpayKeyId || import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: orderAmount * 100, // paise
+        currency: "INR",
+        name: "Swasti Foundation",
+        description: "General Donation",
+        image: "/images/logo.png",
+        order_id: orderId,
+        handler: async function (paymentResponse) {
+          try {
+            // Verify payment signature on Backend
+            const verifyResponse = await fetch(`${API_BASE_URL}/api/donation/verify`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                razorpay_payment_id: paymentResponse.razorpay_payment_id,
+                razorpay_order_id: paymentResponse.razorpay_order_id,
+                razorpay_signature: paymentResponse.razorpay_signature,
+                name: name,
+                email: email
+              })
+            });
+
+            const verifyData = await verifyResponse.json();
+            if (verifyResponse.ok && verifyData.success) {
+              setStatus("success");
+            } else {
+              setStatus("failure");
+            }
+          } catch (err) {
+            console.error("Signature verification request failed:", err);
+            setStatus("failure");
+          }
+        },
+        prefill: {
+          name: name,
+          email: email
+        },
+        theme: {
+          color: "#0f4c81"
+        },
+        modal: {
+          ondismiss: function () {
+            console.log("Razorpay Checkout dismissed.");
+          }
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.on("payment.failed", function (failResponse) {
+        console.error("Payment failed:", failResponse.error);
+        setStatus("failure");
+      });
+      rzp.open();
+    } catch (error) {
+      console.error("Payment setup error:", error);
+      alert(error.message || "Failed to initialize payment transaction.");
+    }
   }
 
   return (
@@ -65,7 +172,11 @@ export default function DonatePage() {
                 </div>
                 <h2>{t("donate.successTitle")}</h2>
                 <p>{t("donate.successBody")}</p>
-                <Button variant="outline" onClick={() => setStatus(null)}>
+                <Button variant="outline" onClick={() => {
+                  setStatus(null);
+                  setName("");
+                  setEmail("");
+                }}>
                   {t("common.backToHome")}
                 </Button>
               </div>
@@ -116,22 +227,44 @@ export default function DonatePage() {
 
                 <div className="donate-name-fields">
                   <label className="form-field">
-                    <span>{t("common.name")}</span>
+                    <span>{t("common.name")} *</span>
                     <div className="input-icon-wrapper">
                       <User className="input-field-icon" size={18} />
-                      <input type="text" name="name" autoComplete="name" placeholder="Your full name" />
+                      <input
+                        type="text"
+                        name="name"
+                        autoComplete="name"
+                        placeholder="Your full name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                      />
                     </div>
                   </label>
                   <label className="form-field">
-                    <span>{t("common.email")}</span>
+                    <span>{t("common.email")} *</span>
                     <div className="input-icon-wrapper">
                       <Mail className="input-field-icon" size={18} />
-                      <input type="email" name="email" autoComplete="email" placeholder="email@example.com" />
+                      <input
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        placeholder="email@example.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
                     </div>
                   </label>
                 </div>
 
-                <Button type="submit" variant="primary" size="lg" className="donate-card__cta">
+                <Button
+                  type="submit"
+                  variant="primary"
+                  size="lg"
+                  className="donate-card__cta"
+                  disabled={!name.trim() || !email.trim()}
+                >
                   <Sparkles size={18} />
                   <span>{t("donate.proceedToPay")} — ₹{effectiveAmount.toLocaleString("en-IN")}</span>
                 </Button>

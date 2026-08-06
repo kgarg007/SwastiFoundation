@@ -23,6 +23,7 @@ app.use('/settings', require('./routes/settings'));
 app.use('/submissions', require('./routes/submissions'));
 app.use('/team', require('./routes/team'));
 app.use('/volunteer-team', require('./routes/volunteerTeam'));
+app.use('/api/donation', require('./routes/donation'));
 const cmsRouter = require('./routes/cms');
 app.use('/cms', cmsRouter);
 app.use('/api/cms', cmsRouter);

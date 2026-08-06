@@ -22,6 +22,7 @@ export default function Dashboard() {
   const [careersList, setCareersList] = useState([]);
   const [teamList, setTeamList] = useState([]);
   const [volunteerTeamList, setVolunteerTeamList] = useState([]);
+  const [donationsList, setDonationsList] = useState([]);
   
   // Global settings state
   const [settings, setSettings] = useState({
@@ -89,6 +90,9 @@ export default function Dashboard() {
       } else if (activeTab === 'submissions') {
         const v = await api.get('/submissions/volunteers');
         setVolunteersList(v);
+      } else if (activeTab === 'donations') {
+        const d = await api.get('/api/donation/list');
+        setDonationsList(d);
       }
     } catch (err) {
       setErrorMsg(err.message || 'Error loading dashboard data.');
@@ -521,6 +525,9 @@ export default function Dashboard() {
           </button>
           <button className={activeTab === 'submissions' ? 'active' : ''} onClick={() => { setActiveTab('submissions'); setShowAddForm(false); setCurrentEditItem(null); }}>
             Submissions Inbox
+          </button>
+          <button className={activeTab === 'donations' ? 'active' : ''} onClick={() => { setActiveTab('donations'); setShowAddForm(false); setCurrentEditItem(null); }}>
+            Donation Records
           </button>
         </nav>
         <button className="btn-logout" onClick={handleLogout}>Log Out</button>
@@ -1346,6 +1353,42 @@ export default function Dashboard() {
                 </div>
               </section>
 
+            </div>
+          )}
+
+          {/* DONATIONS VIEW */}
+          {activeTab === 'donations' && (
+            <div>
+              <div className="admin-list-table-container">
+                <table className="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Receipt ID</th>
+                      <th>Donor Name</th>
+                      <th>Email</th>
+                      <th>Amount</th>
+                      <th>Payment ID</th>
+                      <th>Order ID</th>
+                      <th>Date & Time</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {donationsList.map(d => (
+                      <tr key={d._id}>
+                        <td><strong>{d.receiptId}</strong></td>
+                        <td>{d.donorName}</td>
+                        <td><a href={`mailto:${d.email}`}>{d.email}</a></td>
+                        <td>₹{d.amount.toLocaleString('en-IN')}</td>
+                        <td><code style={{ fontSize: '12px' }}>{d.razorpayPaymentId}</code></td>
+                        <td><code style={{ fontSize: '12px' }}>{d.razorpayOrderId}</code></td>
+                        <td>{new Date(d.createdAt).toLocaleString()}</td>
+                        <td><span className="table-badge" style={{ backgroundColor: 'var(--admin-primary)', color: '#fff', border: 'none' }}>{d.status}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
 
