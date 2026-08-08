@@ -47,9 +47,9 @@ router.post('/order', async (req, res) => {
 // ==========================================
 router.post('/verify', async (req, res) => {
   try {
-    const { razorpay_payment_id, razorpay_order_id, razorpay_signature, name, email, pan } = req.body;
+    const { razorpay_payment_id, razorpay_order_id, razorpay_signature, name, email, pan, phone } = req.body;
 
-    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature || !name || !email || !pan) {
+    if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature || !name || !email || !pan || !phone) {
       return res.status(400).json({ error: 'All payment fields are required.' });
     }
 
@@ -87,6 +87,7 @@ router.post('/verify', async (req, res) => {
       donorName: name,
       email: email,
       pan: pan.trim().toUpperCase(),
+      phone: phone.trim(),
       amount: verifiedAmount,
       razorpayPaymentId: razorpay_payment_id,
       razorpayOrderId: razorpay_order_id,

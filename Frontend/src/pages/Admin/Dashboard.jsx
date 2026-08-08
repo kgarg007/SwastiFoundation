@@ -609,8 +609,8 @@ export default function Dashboard() {
                     <input type="text" name="org_taglineTrans" defaultValue={settings.orgInfo.taglineTranslation || ''} />
                   </label>
                   <label>
-                    <span>Registration number</span>
-                    <input type="text" name="org_regNum" defaultValue={settings.orgInfo.registrationNumber || ''} />
+                    <span>Registered At</span>
+                    <input type="text" name="org_registeredAt" defaultValue={settings.orgInfo.registeredAt || ''} />
                   </label>
                   <label>
                     <span>NGO Type</span>
@@ -1384,7 +1384,7 @@ export default function Dashboard() {
                       <th>PAN</th>
                       <th>Amount</th>
                       <th>Payment ID</th>
-                      <th>Order ID</th>
+                      <th>Phone</th>
                       <th>Date & Time</th>
                       <th>Status</th>
                       <th>Actions</th>
@@ -1399,7 +1399,7 @@ export default function Dashboard() {
                         <td><code style={{ fontSize: '12px', fontWeight: 'bold' }}>{d.pan || 'N/A'}</code></td>
                         <td>₹{d.amount.toLocaleString('en-IN')}</td>
                         <td><code style={{ fontSize: '12px' }}>{d.razorpayPaymentId}</code></td>
-                        <td><code style={{ fontSize: '12px' }}>{d.razorpayOrderId}</code></td>
+                        <td>{d.phone || 'N/A'}</td>
                         <td>{new Date(d.createdAt).toLocaleString()}</td>
                         <td><span className="table-badge" style={{ backgroundColor: 'var(--admin-primary)', color: '#fff', border: 'none' }}>{d.status}</span></td>
                         <td>

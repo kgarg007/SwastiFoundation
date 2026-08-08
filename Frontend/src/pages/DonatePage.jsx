@@ -16,7 +16,8 @@ import {
   CheckCircle2, 
   XCircle,
   Lock,
-  CreditCard
+  CreditCard,
+  Phone
 } from "lucide-react";
 import "../styles/page-hero.css";
 import "./DonatePage.css";
@@ -58,6 +59,7 @@ export default function DonatePage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pan, setPan] = useState("");
+  const [phone, setPhone] = useState("");
   const [status, setStatus] = useState(null); // null | "success" | "failure"
   useReveal();
 
@@ -65,7 +67,7 @@ export default function DonatePage() {
 
   async function handlePay(e) {
     e.preventDefault();
-    if (!name.trim() || !email.trim() || !pan.trim()) return;
+    if (!name.trim() || !email.trim() || !pan.trim() || !phone.trim()) return;
 
     if (effectiveAmount < 10) {
       alert("Minimum donation amount is ₹10.");
@@ -126,7 +128,8 @@ export default function DonatePage() {
                 razorpay_signature: paymentResponse.razorpay_signature,
                 name: name,
                 email: email,
-                pan: pan.trim().toUpperCase()
+                pan: pan.trim().toUpperCase(),
+                phone: phone.trim()
               })
             });
 
@@ -143,7 +146,8 @@ export default function DonatePage() {
         },
         prefill: {
           name: name,
-          email: email
+          email: email,
+          contact: phone.trim()
         },
         theme: {
           color: "#0f4c81"
@@ -169,15 +173,30 @@ export default function DonatePage() {
 
   return (
     <>
-      <header className="page-hero">
+      <header className="page-hero" style={{ paddingBottom: '20px', minHeight: 'auto' }}>
         <div className="container">
           <span className="page-hero__eyebrow">{t("nav.donate")}</span>
           <h1 className="page-hero__title">{t("donate.title")}</h1>
           <p className="page-hero__sub">{t("donate.subtitle")}</p>
+          <div style={{
+            marginTop: '16px',
+            padding: '12px 16px',
+            background: 'rgba(239, 68, 68, 0.08)',
+            borderLeft: '4px solid #dc2626',
+            borderRadius: '4px',
+            lineHeight: '1.5',
+            fontSize: '0.85rem',
+            color: 'var(--color-ink, #1e293b)',
+            textAlign: 'left',
+            maxWidth: '640px',
+            marginInline: 'auto'
+          }}>
+            {t("donate.taxExemptionNote")}
+          </div>
         </div>
       </header>
 
-      <Section tone="base">
+      <Section tone="base" className="donate-section">
         <div className="donate-layout">
           <form className="donate-card reveal" onSubmit={handlePay}>
             {status === "success" ? (
@@ -192,6 +211,7 @@ export default function DonatePage() {
                   setName("");
                   setEmail("");
                   setPan("");
+                  setPhone("");
                 }}>
                   {t("common.backToHome")}
                 </Button>
@@ -274,28 +294,44 @@ export default function DonatePage() {
                   </label>
                 </div>
 
-                <label className="form-field">
-                  <span>{t("donate.pan")} *</span>
-                  <div className="input-icon-wrapper">
-                    <CreditCard className="input-field-icon" size={18} />
-                    <input
-                      type="text"
-                      name="pan"
-                      placeholder={t("donate.panPlaceholder")}
-                      value={pan}
-                      onChange={(e) => setPan(e.target.value.toUpperCase())}
-                      maxLength={10}
-                      required
-                    />
-                  </div>
-                </label>
+                <div className="donate-name-fields">
+                  <label className="form-field">
+                    <span>{t("donate.pan")} *</span>
+                    <div className="input-icon-wrapper">
+                      <CreditCard className="input-field-icon" size={18} />
+                      <input
+                        type="text"
+                        name="pan"
+                        placeholder={t("donate.panPlaceholder")}
+                        value={pan}
+                        onChange={(e) => setPan(e.target.value.toUpperCase())}
+                        maxLength={10}
+                        required
+                      />
+                    </div>
+                  </label>
+                  <label className="form-field">
+                    <span>Phone Number *</span>
+                    <div className="input-icon-wrapper">
+                      <Phone className="input-field-icon" size={18} />
+                      <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Enter 10-digit mobile number"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </label>
+                </div>
 
                 <Button
                   type="submit"
                   variant="primary"
                   size="lg"
                   className="donate-card__cta"
-                  disabled={!name.trim() || !email.trim() || !pan.trim()}
+                  disabled={!name.trim() || !email.trim() || !pan.trim() || !phone.trim()}
                 >
                   <Sparkles size={18} />
                   <span>{t("donate.proceedToPay")} — ₹{effectiveAmount.toLocaleString("en-IN")}</span>

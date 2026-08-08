@@ -66,7 +66,7 @@ export default {
     valuesTitle: "मूल्य",
     leadershipTitle: "नेतृत्व टीम",
     orgDetailsTitle: "संगठन विवरण",
-    regNumber: "पंजीकरण संख्या",
+    registeredAt: "पंजीकृत",
     establishedOn: "स्थापना तिथि",
     orgType: "संगठन प्रकार",
     address: "पंजीकृत कार्यालय",
@@ -105,6 +105,7 @@ export default {
   donate: {
     title: "हमारे कार्य को सहयोग दें",
     subtitle: "हर योगदान — बड़ा या छोटा — वास्तविक समुदायों के लिए वास्तविक कार्यक्रमों को वित्तपोषित करता है।",
+    taxExemptionNote: "स्वस्ति फाउंडेशन को दिया गया दान आयकर अधिनियम की धारा 80G के तहत कर छूट के लिए पात्र है, जो लागू कानून के अधीन है",
     amountTitle: "राशि चुनें",
     customAmount: "अपनी राशि दर्ज करें",
     pan: "पैन नंबर (PAN Number)",

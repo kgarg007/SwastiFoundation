@@ -40,8 +40,7 @@ export default function Footer() {
             <p className="footer__tagline">{orgInfo.tagline}</p>
             <p className="footer__blurb">{t("footer.aboutBlurb")}</p>
             <div className="footer__reg-box">
-              <span className="footer__reg-label">{t("footer.registered")}</span>
-              <span className="footer__reg-value">{orgInfo.registrationNumber}</span>
+              <span className="footer__reg-label" style={{ marginBottom: 0 }}>{t("footer.registered")}</span>
             </div>
           </div>
 

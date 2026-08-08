@@ -101,8 +101,8 @@ export default function AboutPage() {
         <SectionHeading title={t("about.orgDetailsTitle")} />
         <dl className="org-details reveal">
           <div className="org-details__row">
-            <dt>{t("about.regNumber")}</dt>
-            <dd>{orgInfo.registrationNumber}</dd>
+            <dt>{t("about.registeredAt")}</dt>
+            <dd>{orgInfo.registeredAt}</dd>
           </div>
           <div className="org-details__row">
             <dt>{t("about.establishedOn")}</dt>

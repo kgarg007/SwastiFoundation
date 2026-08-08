@@ -12,6 +12,11 @@ const donationSchema = new Schema({
     required: true,
     trim: true
   },
+  phone: {
+    type: String,
+    required: true,
+    trim: true
+  },
   pan: {
     type: String,
     required: true,

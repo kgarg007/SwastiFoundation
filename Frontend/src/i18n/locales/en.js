@@ -66,7 +66,7 @@ export default {
     valuesTitle: "Core Values",
     leadershipTitle: "Leadership Team",
     orgDetailsTitle: "Organisation Details",
-    regNumber: "Registration Number",
+    registeredAt: "Registered At",
     establishedOn: "Established On",
     orgType: "Organisation Type",
     address: "Registered Office",
@@ -105,6 +105,7 @@ export default {
   donate: {
     title: "Support Our Work",
     subtitle: "Every contribution — large or small — funds real programs for real communities.",
+    taxExemptionNote: "Donations made to Swasti Foundation are eligible for tax exemption under Section 80G of the Income Tax Act, subject to applicable law",
     amountTitle: "Choose an amount",
     customAmount: "Custom amount",
     pan: "PAN Number",

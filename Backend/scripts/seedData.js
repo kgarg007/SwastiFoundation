@@ -15,7 +15,7 @@ const defaultSettings = {
     taglineTranslation: "Service to mankind is service to the divine.",
     foundedDate: "2020-02-25",
     foundedYear: 2020,
-    registrationNumber: "DL/2020/341",
+    registeredAt: "Central govt, State govt, Niti Ayog",
     type: "Trust",
     officeAddress: "H.No. 260/4, Main Road, Chhattarpur, New Delhi 110074",
     correspondenceAddress: "H.No. 167, Rajpur Khurd Extension, South Delhi 110068",

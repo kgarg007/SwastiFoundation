@@ -63,7 +63,7 @@ router.put('/', auth, upload.single('founderImage'), async (req, res) => {
     // 2. Flat Form Data structures (as backup for multipart forms)
     const {
       org_name, org_tagline, org_taglineTrans, org_foundedDate, org_foundedYear,
-      org_regNum, org_type, org_address, org_email, org_phone, org_whatsapp,
+      org_registeredAt, org_type, org_address, org_email, org_phone, org_whatsapp,
       social_fb, social_ig, social_yt,
       about_whyFounded, about_problem, about_founderStory, about_inspiration,
       about_mission, about_vision, about_visionExtended,
@@ -77,7 +77,7 @@ router.put('/', auth, upload.single('founderImage'), async (req, res) => {
         taglineTranslation: org_taglineTrans,
         foundedDate: org_foundedDate,
         foundedYear: parseInt(org_foundedYear) || 2020,
-        registrationNumber: org_regNum,
+        registeredAt: org_registeredAt,
         type: org_type,
         officeAddress: org_address,
         email: org_email,

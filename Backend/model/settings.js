@@ -8,7 +8,7 @@ const settingsSchema = new Schema({
     taglineTranslation: { type: String, default: "Service to mankind is service to the divine." },
     foundedDate: { type: String, default: "2020-02-25" },
     foundedYear: { type: Number, default: 2020 },
-    registrationNumber: { type: String, default: "DL/2020/341" },
+    registeredAt: { type: String, default: "Central govt, State govt, Niti Ayog" },
     type: { type: String, default: "Trust" },
     officeAddress: { type: String, default: "H.No. 260/4, Main Road, Chhattarpur, New Delhi 110074" },
     correspondenceAddress: { type: String, default: "H.No. 167, Rajpur Khurd Extension, South Delhi 110068" },

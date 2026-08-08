@@ -1,5 +1,9 @@
 @import "../styles/forms.css";
 
+.donate-section {
+  padding-top: var(--space-md) !important;
+}
+
 /* Premium layout configuration */
 .donate-layout {
   display: grid;
